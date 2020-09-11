@@ -8,9 +8,9 @@ use std::path::{Path, PathBuf};
 #[derive(Clone, Debug)]
 pub enum Mode {
     /// Indicates that the userscript was started via hints.
-    Hints(Hints),
+    Hints(HintsVars),
     /// Indicates that the userscript was started via command or key binding.
-    Command(Command),
+    Command(CommandVars),
 }
 
 const MODE: &str = "QUTE_MODE";
@@ -21,8 +21,8 @@ const MODE: &str = "QUTE_MODE";
 #[inline]
 pub fn mode() -> Mode {
     match unwrap_env(MODE).as_str() {
-        "hints" => Mode::Hints,
-        "command" => Mode::Command,
+        "hints" => Mode::Hints(HintsVars),
+        "command" => Mode::Command(CommandVars),
         _ => panic!("invalid {} variable", MODE),
     }
 }
@@ -31,13 +31,13 @@ pub fn mode() -> Mode {
 ///
 /// [`Mode::Hints`]: ./enum.Mode.html#variant.Hints
 #[derive(Clone, Debug)]
-pub struct Hints;
+pub struct HintsVars;
 
 const HINTS_URL: &str = "QUTE_URL";
 const HINTS_SELECTED_TEXT: &str = "QUTE_SELECTED_TEXT";
 const HINTS_SELECTED_HTML: &str = "QUTE_SELECTED_HTML";
 
-impl Hints {
+impl HintsVars {
     /// Returns the URL selected via hints.
     #[inline]
     pub fn url() -> String {
@@ -61,14 +61,14 @@ impl Hints {
 ///
 /// [`Mode::Command`]: ./enum.Mode.html#variant.Command
 #[derive(Clone, Debug)]
-pub struct Command;
+pub struct CommandVars;
 
 const COMMAND_URL: &str = "QUTE_URL";
 const COMMAND_TITLE: &str = "QUTE_TITLE";
 const COMMAND_SELECTED_TEXT: &str = "QUTE_SELECTED_TEXT";
 const COMMAND_COUNT: &str = "QUTE_COUNT";
 
-impl Command {
+impl CommandVars {
     /// Returns the URL of the current page.
     #[inline]
     pub fn url() -> String {
