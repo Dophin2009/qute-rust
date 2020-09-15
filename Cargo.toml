@@ -2,6 +2,10 @@
 name = "qutescript"
 version = "0.1.0"
 authors = ["Eric Zhao <21zhaoe@protonmail.com>"]
+description = """
+A tiny library for writing qutebrowser userscripts in Rust.
+"""
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Dophin2009/qutescript-rs"
 edition = "2018"
-
-[dependencies]
