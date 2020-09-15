@@ -6,7 +6,7 @@ use std::path::{Path, PathBuf};
 /// The method by which the userscript was launched, either `hints` (started via hints)
 /// or `command` (started via command or key binding).
 #[derive(Clone, Debug)]
-pub enum Mode {
+pub enum SpawnMode {
     /// Indicates that the userscript was started via hints.
     Hints(HintsVars),
     /// Indicates that the userscript was started via command or key binding.
@@ -15,21 +15,21 @@ pub enum Mode {
 
 const MODE: &str = "QUTE_MODE";
 
-/// Returns [`Mode`] based on environment variable `QUTE_MODE`.
+/// Returns [`SpawnMode`] based on environment variable `QUTE_MODE`.
 ///
-/// [`Mode`]: ./enum.Mode.html
+/// [`SpawnMode`]: ./enum.SpawnMode.html
 #[inline]
-pub fn mode() -> Mode {
+pub fn mode() -> SpawnMode {
     match unwrap_env(MODE).as_str() {
-        "hints" => Mode::Hints(HintsVars),
-        "command" => Mode::Command(CommandVars),
+        "hints" => SpawnMode::Hints(HintsVars),
+        "command" => SpawnMode::Command(CommandVars),
         _ => panic!("invalid {} variable", MODE),
     }
 }
 
-/// Struct with methods for [`Mode::Hints`]-specific variables.
+/// Struct with methods for [`SpawnMode::Hints`]-specific variables.
 ///
-/// [`Mode::Hints`]: ./enum.Mode.html#variant.Hints
+/// [`SpawnMode::Hints`]: ./enum.SpawnMode.html#variant.Hints
 #[derive(Clone, Debug)]
 pub struct HintsVars;
 
@@ -57,9 +57,9 @@ impl HintsVars {
     }
 }
 
-/// Struct with methods for [`Mode::Command`]-specific variables.
+/// Struct with methods for [`SpawnMode::Command`]-specific variables.
 ///
-/// [`Mode::Command`]: ./enum.Mode.html#variant.Command
+/// [`SpawnMode::Command`]: ./enum.SpawnMode.html#variant.Command
 #[derive(Clone, Debug)]
 pub struct CommandVars;
 
